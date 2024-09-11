@@ -32,7 +32,6 @@
   <h1>Status dos Servidores</h1>
   <div id="status-list">
     <div id="local" class="status offline">Local: Offline</div>
-    <div id="ubuntu-dev" class="status offline">Ubuntu-dev: Offline</div> <!-- Adicionando servidor ubuntu-dev -->
     <!-- Adicione mais servidores aqui se necessário -->
   </div>
   <script>
@@ -43,14 +42,14 @@
         const data = await response.json();
         
         // Encontra o status do servidor "Local"
-        const localServer = data.servers.find(s => s.name === "Local");
-        const ubuntuDevServer = data.servers.find(s => s.name === "Ubuntu-dev"); // Adicionando servidor ubuntu-dev
+        const server = data.servers.find(s => s.name === "Local");
 
-        if (localServer) {
+        if (server) {
           const statusElement = document.getElementById('local');
           const currentTime = new Date();
-          const lastCheckIn = new Date(localServer.last_check_in);
+          const lastCheckIn = new Date(server.last_check_in);
           
+          // Considera online se o último check-in foi nos últimos 10 minutos
           const isOnline = (currentTime - lastCheckIn) < 10 * 60 * 1000;
 
           statusElement.textContent = `Local: ${isOnline ? 'Online' : 'Offline'}`;
@@ -58,20 +57,6 @@
         } else {
           document.getElementById('local').textContent = 'Local não encontrado.';
         }
-
-        if (ubuntuDevServer) {
-          const statusElement = document.getElementById('ubuntu-dev');
-          const currentTime = new Date();
-          const lastCheckIn = new Date(ubuntuDevServer.last_check_in);
-          
-          const isOnline = (currentTime - lastCheckIn) < 10 * 60 * 1000;
-
-          statusElement.textContent = `Ubuntu-dev: ${isOnline ? 'Online' : 'Offline'}`;
-          statusElement.className = `status ${isOnline ? 'online' : 'offline'}`;
-        } else {
-          document.getElementById('ubuntu-dev').textContent = 'Ubuntu-dev não encontrado.';
-        }
-
       } catch (error) {
         console.error('Erro ao buscar status:', error);
       }
