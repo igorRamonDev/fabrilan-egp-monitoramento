@@ -6,7 +6,7 @@ import os
 status_file = 'status.json'
 
 # Nome do servidor atual (defina isso para cada servidor de forma única)
-server_name = "Local"
+server_name = "Ubuntu-dev"
 
 def update_status():
     try:
