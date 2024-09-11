@@ -32,6 +32,7 @@
   <h1>Status dos Servidores</h1>
   <div id="status-list">
     <div id="local" class="status offline">Local: Offline</div>
+    <div id="ubuntu-pc" class="status offline">Ubuntu-PC: Offline</div>
     <!-- Adicione mais servidores aqui se necessário -->
   </div>
   <script>
@@ -41,22 +42,30 @@
         const response = await fetch('status.json');
         const data = await response.json();
         
-        // Encontra o status do servidor "Local"
-        const server = data.servers.find(s => s.name === "Local");
+        // Função para atualizar o status de um servidor
+        function updateServerStatus(serverName) {
+          const server = data.servers.find(s => s.name === serverName);
+          const statusElement = document.getElementById(serverName.toLowerCase().replace(/ /g, '-'));
 
-        if (server) {
-          const statusElement = document.getElementById('local');
-          const currentTime = new Date();
-          const lastCheckIn = new Date(server.last_check_in);
-          
-          // Considera online se o último check-in foi nos últimos 10 minutos
-          const isOnline = (currentTime - lastCheckIn) < 10 * 60 * 1000;
+          if (server) {
+            const currentTime = new Date();
+            const lastCheckIn = new Date(server.last_check_in);
+            
+            // Considera online se o último check-in foi nos últimos 10 minutos
+            const isOnline = (currentTime - lastCheckIn) < 10 * 60 * 1000;
 
-          statusElement.textContent = `Local: ${isOnline ? 'Online' : 'Offline'}`;
-          statusElement.className = `status ${isOnline ? 'online' : 'offline'}`;
-        } else {
-          document.getElementById('local').textContent = 'Local não encontrado.';
+            statusElement.textContent = `${serverName}: ${isOnline ? 'Online' : 'Offline'}`;
+            statusElement.className = `status ${isOnline ? 'online' : 'offline'}`;
+          } else {
+            statusElement.textContent = `${serverName} não encontrado.`;
+          }
         }
+
+        // Atualiza o status dos servidores
+        updateServerStatus('Local');
+        updateServerStatus('Ubuntu-PC');
+        // Adicione chamadas para outros servidores aqui se necessário
+
       } catch (error) {
         console.error('Erro ao buscar status:', error);
       }
