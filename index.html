@@ -38,7 +38,7 @@
     async function fetchStatus() {
       try {
         // URL do arquivo status.json no GitHub Pages
-        const response = await fetch('status.json');
+        const response = await fetch('https://igorramondev.github.io/fabrilan-egp-monitoramento/status.json');
         const data = await response.json();
         
         // Encontra o status do servidor "Local"
