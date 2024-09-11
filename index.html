@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status dos Servidores</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    .status {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      color: #fff;
+    }
+    .online {
+      background-color: #28a745;
+    }
+    .offline {
+      background-color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <h1>Status dos Servidores</h1>
+  <div id="status-list">
+    <div id="ituverava" class="status offline">Ituverava: Offline</div>
+    <div id="sao-goncalo" class="status offline">São Gonçalo do Gurguéia: Offline</div>
+    <div id="fontes-ventos" class="status offline">Fontes dos Ventos: Offline</div>
+    <div id="arinos" class="status offline">Arinos: Offline</div>
+  </div>
+  <script>
+    async function fetchStatus() {
+      try {
+        const response = await fetch('https://your-api-endpoint.com/status');
+        const data = await response.json();
+
+        document.getElementById('ituverava').textContent = `Ituverava: ${data.ituverava}`;
+        document.getElementById('ituverava').className = `status ${data.ituverava}`;
+
+        document.getElementById('sao-goncalo').textContent = `São Gonçalo do Gurguéia: ${data.sao_goncalo}`;
+        document.getElementById('sao-goncalo').className = `status ${data.sao_goncalo}`;
+
+        document.getElementById('fontes-ventos').textContent = `Fontes dos Ventos: ${data.fontes_dos_ventos}`;
+        document.getElementById('fontes-ventos').className = `status ${data.fontes_dos_ventos}`;
+
+        document.getElementById('arinos').textContent = `Arinos: ${data.arinos}`;
+        document.getElementById('arinos').className = `status ${data.arinos}`;
+      } catch (error) {
+        console.error('Erro ao buscar status:', error);
+      }
+    }
+
+    fetchStatus();
+    setInterval(fetchStatus, 600000); // Atualiza a cada 10 minutos
+  </script>
+</body>
+</html>
