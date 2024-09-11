@@ -2,13 +2,12 @@ import json
 import datetime
 import os
 
-# Caminho para o arquivo JSON (supondo que o repositório foi clonado localmente)
+# Caminho para o arquivo JSON
 status_file = 'status.json'
 
-# Nome do servidor atual (identifique cada servidor por um nome único)
+# Nome do servidor atual (defina isso para cada servidor de forma única)
 server_name = "Local"
 
-# Atualiza o arquivo JSON
 def update_status():
     try:
         # Abre o arquivo status.json
@@ -19,6 +18,7 @@ def update_status():
         for server in data['servers']:
             if server['name'] == server_name:
                 server['last_check_in'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+                server['status'] = "online"  # Defina como "online" se o check-in foi bem-sucedido
                 break
 
         # Escreve as mudanças de volta no arquivo JSON
@@ -30,7 +30,6 @@ def update_status():
     except Exception as e:
         print(f"Erro ao atualizar o status: {e}")
 
-# Função para fazer commit e push
 def git_commit_and_push():
     try:
         # Commit e push via Git
