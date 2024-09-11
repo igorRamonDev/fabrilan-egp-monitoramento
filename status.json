@@ -1,0 +1,14 @@
+{
+    "servers": [
+        {
+            "name": "Server 1",
+            "last_check_in": "2024-09-11T14:30:00Z",
+            "status": "offline"
+        },
+        {
+            "name": "Server 2",
+            "last_check_in": "2024-09-11T14:30:00Z",
+            "status": "offline"
+        }
+    ]
+}
