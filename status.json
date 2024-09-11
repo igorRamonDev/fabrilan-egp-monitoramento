@@ -2,8 +2,8 @@
     "servers": [
         {
             "name": "Local",
-            "last_check_in": "2024-09-11T19:45:23.782633+00:00",
-            "status": "offline"
+            "last_check_in": "2024-09-11T19:46:18.443977+00:00",
+            "status": "online"
         },
         {
             "name": "Server 2",
