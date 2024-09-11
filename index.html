@@ -1,27 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Status dos Servidores</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status dos Servidores</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    .status {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      color: #fff;
+    }
+    .online {
+      background-color: #28a745;
+    }
+    .offline {
+      background-color: #dc3545;
+    }
+  </style>
 </head>
 <body>
-    <h1>Status dos Servidores</h1>
-    <div id="server-status"></div>
-
-    <script>
-        async function fetchStatus() {
-            const response = await fetch('https://igorramondev.github.io/fabrilan-egp-monitoramento/status.json');
-            const data = await response.json();
-            let output = '<ul>';
-            data.servers.forEach(server => {
-                output += `<li>${server.name} - ${server.status}</li>`;
-            });
-            output += '</ul>';
-            document.getElementById('server-status').innerHTML = output;
-        }
+  <h1>Status dos Servidores</h1>
+  <div id="status-list">
+    <div id="local" class="status offline">Local: Offline</div>
+    <!-- Adicione mais servidores aqui se necessário -->
+  </div>
+  <script>
+    async function fetchStatus() {
+      try {
+        // URL do arquivo status.json no GitHub Pages
+        const response = await fetch('status.json');
+        const data = await response.json();
         
-        fetchStatus();
-    </script>
+        // Encontra o status do servidor "Local"
+        const server = data.servers.find(s => s.name === "Local");
+
+        if (server) {
+          const statusElement = document.getElementById('local');
+          const currentTime = new Date();
+          const lastCheckIn = new Date(server.last_check_in);
+          
+          // Considera online se o último check-in foi nos últimos 10 minutos
+          const isOnline = (currentTime - lastCheckIn) < 10 * 60 * 1000;
+
+          statusElement.textContent = `Local: ${isOnline ? 'Online' : 'Offline'}`;
+          statusElement.className = `status ${isOnline ? 'online' : 'offline'}`;
+        } else {
+          document.getElementById('local').textContent = 'Local não encontrado.';
+        }
+      } catch (error) {
+        console.error('Erro ao buscar status:', error);
+      }
+    }
+
+    fetchStatus();
+    setInterval(fetchStatus, 600000); // Atualiza a cada 10 minutos
+  </script>
 </body>
 </html>
