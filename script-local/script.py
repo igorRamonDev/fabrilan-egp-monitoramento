@@ -6,7 +6,7 @@ import os
 status_file = 'status.json'
 
 # Nome do servidor atual (identifique cada servidor por um nome único)
-server_name = "Server 1"
+server_name = "Local"
 
 # Atualiza o arquivo JSON
 def update_status():
@@ -18,7 +18,7 @@ def update_status():
         # Encontra o servidor correto e atualiza o tempo de check-in
         for server in data['servers']:
             if server['name'] == server_name:
-                server['last_check_in'] = datetime.datetime.utcnow().isoformat() + "Z"
+                server['last_check_in'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
                 break
 
         # Escreve as mudanças de volta no arquivo JSON
